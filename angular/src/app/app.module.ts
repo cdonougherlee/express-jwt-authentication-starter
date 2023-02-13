@@ -10,11 +10,13 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProtectedComponentComponent } from './protected-component/protected-component.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'protected', component: ProtectedComponentComponent }
+  { path: 'protected', component: ProtectedComponentComponent },
+  { path: 'logout', component: LogoutComponent },
 ];
 
 @NgModule({
@@ -22,22 +24,23 @@ const appRoutes: Routes = [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    ProtectedComponentComponent
+    ProtectedComponentComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes, {useHash: true}),
-    HttpClientModule
+    RouterModule.forRoot(appRoutes, { useHash: true }),
+    HttpClientModule,
   ],
   providers: [
     AuthService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
