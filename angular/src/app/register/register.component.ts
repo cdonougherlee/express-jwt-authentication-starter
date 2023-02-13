@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,11 @@ export class RegisterComponent implements OnInit {
   @ViewChild('registerform', { static: false })
   registerForm!: NgForm;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {}
 
@@ -34,7 +39,10 @@ export class RegisterComponent implements OnInit {
       })
       .subscribe({
         // The response data
-        next: (response) => console.log(response),
+        next: (response) => {
+          this.authService.setLocalStorage(response);
+          console.log(response);
+        },
         // If there is an error
         error: (error) => console.log(error),
         // When observable completes
