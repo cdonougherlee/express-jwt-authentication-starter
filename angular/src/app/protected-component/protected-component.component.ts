@@ -4,13 +4,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Component({
   selector: 'app-protected-component',
   templateUrl: './protected-component.component.html',
-  styleUrls: ['./protected-component.component.css']
+  styleUrls: ['./protected-component.component.css'],
 })
 export class ProtectedComponentComponent implements OnInit {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  message: String
+  message!: String;
 
   // Execute this HTTP request when the route loads
   ngOnInit() {
@@ -23,16 +22,16 @@ export class ProtectedComponentComponent implements OnInit {
 
       (error) => {
         if (error.status === 401) {
-          this.message = 'You are not authorized to visit this route.  No data is displayed.';
+          this.message =
+            'You are not authorized to visit this route.  No data is displayed.';
         }
 
         console.log(error);
-      }, 
+      },
 
       () => {
         console.log('HTTP request done');
       }
     );
   }
-
 }
