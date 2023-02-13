@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors'); // Needed to make requests from Angular to API on different servers
 const path = require('path');
 const passport = require('passport');
 
