@@ -2,13 +2,13 @@ const express = require("express");
 const cors = require("cors"); // Needed to make requests from Angular to API on different servers
 const path = require("path");
 const passport = require("passport");
+require("dotenv").config({ path: "../.env" });
 
 /**
  * -------------- GENERAL SETUP ----------------
  */
 
 // Gives us access to variables set in the .env file via `process.env.VARIABLE_NAME` syntax
-require("dotenv").config();
 
 // Create the Express application
 var app = express();

@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const { authorize } = require("passport");
-const router = require("express").Router();
 const User = mongoose.model("User");
 const auth = require("../middleware/authMiddleware");
 
