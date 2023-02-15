@@ -4,23 +4,25 @@ const User = require("mongoose").model("User");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 
-const pathToKey = path.join(__dirname, "..", "id_rsa_pub.pem");
-// const SECRET = process.env.SECRET
-const PUB_KEY = fs.readFileSync(pathToKey, "utf8");
+// Get and encode public key
+const pathToPubKey = path.join(__dirname, "..", "id_rsa_pub.pem");
+const PUB_KEY = fs.readFileSync(pathToPubKey, "utf8");
 
-// At a minimum, you must pass the `jwtFromRequest` and `secretOrKey` properties
+// Options for the jwt strategy
+// JwtStrategy expects certain syntax of the JWT, which ExtractJwt function provides
+// Authorization: Bearer <token>
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: PUB_KEY,
   algorithms: ["RS256"],
 };
 
-// This runs a validation on the JWT, and passes on the payload once its done
+// Validate JWT, pass on the payload once done
 const strategy = new JwtStrategy(options, (payload, done) => {
   // JWT payload has a sub field, includes some info/unique identifier about the user.
-  // When we create the register/login functions (routes), we put the mongodb _id in the sub field
-  // Because the JWT strategy has already run, we know there is a valid JWT here and dont need to check
+  // When the routes are created, the mongodb _id goes in the sub field
   User.findOne({ _id: payload.sub })
+    // Because the JWT strategy has already run, know there is a valid JWT here and dont need to check
     .then((user) => {
       // Passport expects to see ethier a user or false
       // Put ADMIN stuff here for later
